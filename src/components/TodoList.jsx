@@ -18,6 +18,10 @@ function TodoList() {
         }
     }
 
+    const deleteTodo = (index) => {
+        setTodos( todos.filter((todo, i) => i !== index) );
+    }
+
     return(
         <>
             <input
@@ -40,6 +44,7 @@ function TodoList() {
                     <tr>
                         <th>Date</th>
                         <th>Description</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,6 +53,9 @@ function TodoList() {
                             <tr key={i}>
                                 <td>{todo.date}</td>
                                 <td>{todo.desc}</td>
+                                <td>
+                                    <button onClick={()=>deleteTodo(i)}>Delete</button>
+                                </td>
                             </tr>
                         )
                     }
