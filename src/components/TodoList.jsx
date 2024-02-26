@@ -10,14 +10,12 @@ function TodoList() {
     const [todos, setTodos] = useState([]);
 
     const handleClick = () => {
-
         if (todo.desc && todo.date) {
             setTodos([...todos, todo]);
             setTodo({desc:'', date:''});
         } else {
             alert('Type values first');
         }
- 
     }
 
     return(
@@ -37,14 +35,19 @@ function TodoList() {
 
             <button onClick={handleClick}>Add Todo</button>
 
-
             <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {
                         todos.map( (todo, i) => 
                             <tr key={i}>
-                                <td>{todo.desc}</td>
                                 <td>{todo.date}</td>
+                                <td>{todo.desc}</td>
                             </tr>
                         )
                     }
@@ -56,5 +59,3 @@ function TodoList() {
 }
 
 export default TodoList;
-
-
