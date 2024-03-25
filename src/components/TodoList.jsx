@@ -7,6 +7,9 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 
 function TodoList() {
 
@@ -23,7 +26,9 @@ function TodoList() {
         { field:'priority', filter:true, floatingFilter: true,
             cellStyle: params => params.value === 'High' ? {color:'red'} : {color:'black'} 
         },
-        { field:'date', filter:true, floatingFilter: true }
+        { field:'date', filter:true, floatingFilter: true, valueFormatter: params => params.value.format('DD.MM.YYYY') },
+    
+
     ]);
 
     const gridRef = useRef();
@@ -46,9 +51,7 @@ function TodoList() {
     }
 
     const handleDate = date => {
-        const dateStr = date.toISOString();
-        console.log(  dateStr );
-        setTodo( {...todo, date: dateStr } );
+        setTodo( {...todo, date: date } );
     }
 
     return(
@@ -72,17 +75,23 @@ function TodoList() {
                     onChange={e => setTodo( {...todo, priority: e.target.value } )}
                 />
 
-                <DatePicker value={todo.date} onChange={ e => handleDate(e) } 
-                    label="Date"
-                    views={['year', 'month', 'day']}
-                />
+                
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker value={todo.date} onChange={ e => handleDate(e) } 
+                        label="Date"
+                        format='DD.MM.YYYY'
+                        views={['year', 'month', 'day']}
 
-                <Button variant='contained' onClick={handleClick}>Add Todo</Button>
-                <Button variant='contained' color='error' onClick={handleDelete}>Delete</Button>
+                    />
+                </LocalizationProvider>
+               
+
+                <Button variant='outlined' onClick={handleClick}>Add Todo</Button>
+                <Button variant='outlined' color='error' onClick={handleDelete}>Delete</Button>
             </Stack>
             <div 
                 className='ag-theme-material' 
-                style={ {height:600, width:650}}
+                style={ {height:600, width:800, margin:'auto'}}
             >
                 <AgGridReact 
                     ref={gridRef}
